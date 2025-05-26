@@ -39,8 +39,19 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    //---------------------------
+    packagingOptions {
+        resources {
+            excludes += setOf(
+                "/META-INF/LICENSE",
+                "/META-INF/LICENSE.md",
+                "/META-INF/NOTICE",
+                "/META-INF/NOTICE.md",
+                "/META-INF/DEPENDENCIES"
+            )
+        }
+    }
 }
-
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -59,7 +70,11 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.13.0"))
     implementation("com.google.firebase:firebase-auth")
     // ----------------------------------------------------------------------------
-    //itext -----------------------------------------------------------------------
-    implementation("com.itextpdf:itext7-core:7.1.15")
-    // ----------------------------------------------------------------------------
+    // iTextG para manipulación de PDFs
+    implementation("com.itextpdf:itextg:5.5.10")
+    // JavaMail para envío de correos
+    implementation ("com.sun.mail:android-mail:1.6.7")
+    implementation ("com.sun.mail:android-activation:1.6.7")
 }
+
+

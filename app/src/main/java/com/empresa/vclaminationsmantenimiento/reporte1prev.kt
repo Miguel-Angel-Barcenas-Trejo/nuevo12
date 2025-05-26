@@ -7,6 +7,9 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
+import android.util.Log
+
 
 class reporte1prev : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +42,35 @@ class reporte1prev : AppCompatActivity() {
 
         // Configurar la lógica para los botones
         btnEnviarCorreo.setOnClickListener {
-            // Lógica para enviar el reporte por correo
+            val datos = mapOf(
+                "Fecha" to etFecha.text.toString(),
+                "reporte" to etReporte.text.toString(),
+                "turno" to etTurno.text.toString(),
+                "maquina" to etMaquina.text.toString(),
+                "responsable" to etResponsable.text.toString(),
+                "tipoReporte" to etTipoReporte.text.toString(),
+                "paroMaquina" to etParoMaquina.text.toString(),
+                "tipoFalla" to etTipoFalla.text.toString(),
+                "causaRaiz" to etCausaRaiz.text.toString(),
+                "actividad" to etActividad.text.toString(),
+                "horaReporte" to etHoraReporte.text.toString(),
+                "horaInicio" to etHoraInicio.text.toString(),
+                "horaFinal" to etHoraFinal.text.toString(),
+                "tiempoTotal" to etTiempoTotal.text.toString(),
+                "requerimientos" to etRequerimientos.text.toString(),
+                "observaciones" to etObservaciones.text.toString()
+            )
+
+            val pdfFile = PdfHelper.generatePdf(this, datos)
+
+            if (pdfFile != null && pdfFile.exists()) {
+                EmailHelper.sendEmail(this, "barcenasm342@gmail.com", pdfFile)
+                Toast.makeText(this, "Correo enviado con el PDF adjunto", Toast.LENGTH_SHORT).show()
+            } else {
+                Log.e("PDF", "El archivo no se generó correctamente")
+                Toast.makeText(this, "Error al generar el archivo PDF", Toast.LENGTH_SHORT).show()
+            }
         }
+
     }
 }
